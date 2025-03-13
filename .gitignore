@@ -1,0 +1,16 @@
+.idea
+*.iml
+**/target/**
+log/*
+*.DS_Store
+.mvn/*
+.git
+.svn
+.hg
+.zip
+.gz
+.DS_Store
+.target
+.idea/
+target/
+
