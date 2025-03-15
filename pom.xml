@@ -10,6 +10,12 @@
     <packaging>pom</packaging>
 
     <name>book-management-system</name>
+    <modules>
+        <module>book-management-gateway</module>
+        <module>book-management-registry</module>
+        <module>book-management-auth</module>
+        <module>book-management-core</module>
+    </modules>
 
 
     <parent>
@@ -78,7 +84,6 @@
         <turbine.version>2.2.9.RELEASE</turbine.version>
         <hystrix.version>2.2.9.RELEASE</hystrix.version>
     </properties>
-
 
 
     <dependencyManagement>
@@ -163,24 +168,24 @@
                 <artifactId>sa-token-spring-boot-starter</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-redis-jackson</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-alone-redis</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <!--springboot2.5 bootstrap文件失效解决-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <!-- HikariCP start -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+        <!-- HikariCP end -->
+    </dependencies>
 
 
     <build>

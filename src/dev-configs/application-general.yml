@@ -1,0 +1,39 @@
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 300000
+        readTimeout: 300000
+
+hystrix:
+  share-security-context: true
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1200000
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 1200000
+  ConnectTimeout: 1200000
+
+logging:
+  level:
+    com.netflix.discovery: OFF
+    org.springframework.cloud.config.client: OFF
+
+swagger:
+  enabled: true

@@ -1,0 +1,79 @@
+eureka:
+  client:
+    # 是否启用eureka客户端。默认true
+    enabled: true
+    # 是否检索服务（获取eureka服务列表）
+    fetch-registry: true
+    # 缓存清单更新时间，默认30秒。见EurekaClientConfigBean，其中DefaultEurekaClientConfig可不看（前者spring实现，后者Netflix实现）
+    # 如果想eureka server剔除服务后尽快在client体现，我觉得可缩短此时间。
+    registry-fetch-interval-seconds: 5
+    # 是否向服务注册中心注册自己（如果仅作为调用者，不提供服务，可以为false）
+    register-with-eureka: true
+    # eureka服务的位置，如配置错误，则：Cannot execute request on any known server
+    # 详见：com.netflix.discovery.endpoint.EndpointUtils
+    serviceUrl:
+      # 如果需要注册多个服务器，可用逗号隔开，例如：,
+      defaultZone: http://127.0.0.1:18080/eureka/
+  instance:
+    # 如果zone使用hostname方式，则这个hostname也必须明确指定保持一致。如果zone使用IP地址方式，则这个hostname按如下配置自动读取IP（总得来说就是此处的hostname必须要和zone里面的保持一致）
+    hostname: 127.0.0.1
+    # 实例名。
+    instance-id: 127.0.0.1:book-management-gateway:18082
+    non-secure-port-enabled: true
+    non-secure-port: 18082
+    ip-address: 127.0.0.1
+    # 服务失效时间。缺省为90秒服务端接收不到客户端的心跳，则剔除该客户端服务实例。
+    lease-expiration-duration-in-seconds: 90
+    # 服务续约间隔时间。默认每隔30秒，客户端会向服务端发送心跳。见DiscoveryClient.initScheduledTasks
+    lease-renewal-interval-in-seconds: 30
+    metadata-map:
+      configPath: /config
+    # 是否以IP注册到Eureka Server上，如果false则不是IP而是服务器名称
+    # 将IP注册到eureka中，如果为false默认使用hostname主机名注册（这个是重点，不然你可能会遇到坑）注意本机集群使用false，多机器使用true比较合适
+    # 默认false。应该始终设置为true。如果基于Docker等容器的部署，容器会生成一个随机的主机名，此时DNS不存在该名，无法解析
+    # 本地开发的时候可以设置为 false
+    prefer-ip-address: true
+
+server:
+  port: 18082
+  tomcat:
+    max-http-form-post-size: 0
+
+spring:
+  application:
+    name: book-management-gateway
+  cloud:
+    config:
+      fail-fast: false
+      profile: general,auth
+      retry:
+        initial-interval: 2000
+        max-attempts: 10
+        max-interval: 10000
+        multiplier: 2
+      uri: http://127.0.0.1:8080/config/
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+  jackson:
+    date-format: yyyy-MM-dd
+    default-property-inclusion: NON_NULL
+    time-zone: GMT+8
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+  mvc:
+    dispatch-options-request: true
+    dispatch-trace-request: false
+    format:
+      date: yyyy-MM-dd
+  profiles:
+    active: general
+  servlet:
+    multipart:
+      file-size-threshold: 1MB
+      max-file-size: 31457280
+      max-request-size: 31457280

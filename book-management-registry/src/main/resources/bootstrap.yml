@@ -1,0 +1,17 @@
+server:
+  port: 18080
+
+spring:
+  application:
+    name: book-management-registry
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: file:./src/dev-configs/
+        prefix: /config
+
+  thymeleaf:
+    cache: false
