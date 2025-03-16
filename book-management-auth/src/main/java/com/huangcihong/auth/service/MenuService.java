@@ -1,7 +1,5 @@
 package com.huangcihong.auth.service;
 
-import org.springframework.stereotype.Service;
-
 /**
  * @author huangcihong
  */

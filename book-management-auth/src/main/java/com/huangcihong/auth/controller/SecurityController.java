@@ -1,7 +1,6 @@
 package com.huangcihong.auth.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import com.huangcihong.auth.service.SecurityService;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
@@ -33,7 +32,7 @@ public class SecurityController {
     @PostMapping("logout")
     @ApiOperation(value = "退出登录")
     @SaCheckLogin
-    public ResultInfo<Void> logout(@RequestBody LoginVo loginVo) {
+    public ResultInfo<Void> logout() {
         StpUtil.logout();
         return ResultInfo.success();
     }
@@ -41,7 +40,7 @@ public class SecurityController {
     @PostMapping("isLogin")
     @ApiOperation(value = "登陆验证")
     @SaCheckLogin
-    public ResultInfo<Boolean> isLogin(@RequestBody LoginVo loginVo) {
+    public ResultInfo<Boolean> isLogin() {
         return ResultInfo.success(StpUtil.isLogin());
     }
 
