@@ -12,24 +12,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table(value = "auth_user", onInsert = MyInsertListener.class, onUpdate = MyUpdateListener.class)
+@Table(value = "user", onInsert = MyInsertListener.class, onUpdate = MyUpdateListener.class)
 public class UserPo extends BaseEntity {
 
-    /**
-     * 用户名
-     */
     private String username;
 
-    /**
-     * 姓名
-     */
     private String name;
 
-    /**
-     * 密码
-     */
-    @JsonIgnore
     private String password;
 
+    private String email;
+
+    private String phone;
+
+    private String role;
 
 }

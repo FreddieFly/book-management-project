@@ -1,7 +1,11 @@
 package com.huangcihong.auth.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.stp.StpUtil;
 import com.huangcihong.auth.service.UserService;
+import com.huangcihong.common.entity.vo.auth.LoginVo;
+import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
 import com.huangcihong.common.entity.vo.auth.UserVo;
 import com.mybatisflex.core.paginate.Page;
@@ -24,6 +28,7 @@ public class UserController {
     @PostMapping("create")
     @ApiOperation(value = "创建用户")
     @SaCheckLogin
+    @SaCheckRole("admin")
     public ResultInfo<Long> createUser(@RequestBody UserVo userVo) {
         return ResultInfo.success(userService.createUser(userVo));
     }
@@ -31,6 +36,7 @@ public class UserController {
     @PutMapping("update")
     @ApiOperation(value = "更新用户信息")
     @SaCheckLogin
+    @SaCheckRole("admin")
     public ResultInfo<Boolean> updateUser(@RequestBody UserVo userVo) {
         return ResultInfo.success(userService.updateUser(userVo));
     }
@@ -38,16 +44,16 @@ public class UserController {
     @GetMapping("page")
     @ApiOperation(value = "分页查询用户列表")
     @SaCheckLogin
-    public ResultInfo<Page<UserVo>> getUserPage(@RequestParam(defaultValue = "1") int pageNumber,
-                                                @RequestParam(defaultValue = "10") int pageSize,
+    @SaCheckRole("admin")
+    public ResultInfo<Page<UserVo>> getUserPage(@RequestParam Page<UserVo> page,
                                                 @RequestParam(required = false) String name) {
-        Page<UserVo> page = new Page<>(pageNumber, pageSize);
         return ResultInfo.success(userService.getUserPage(page, name));
     }
 
     @GetMapping("detail/{userId}")
     @ApiOperation(value = "根据ID查询用户信息")
     @SaCheckLogin
+    @SaCheckRole("admin")
     public ResultInfo<UserVo> getUserById(@PathVariable Long userId) {
         return ResultInfo.success(userService.getUserById(userId));
     }
@@ -55,7 +61,24 @@ public class UserController {
     @DeleteMapping("delete/{userId}")
     @ApiOperation(value = "根据ID删除用户")
     @SaCheckLogin
+    @SaCheckRole("admin")
     public ResultInfo<Boolean> deleteUserById(@PathVariable Long userId) {
         return ResultInfo.success(userService.deleteUserById(userId));
     }
+
+    @PostMapping("doLogin")
+    @ApiOperation(value = "用户登录")
+    public ResultInfo<TokenInfoVo> doLogin(@RequestBody LoginVo loginVo) {
+        return ResultInfo.success(userService.doLogin(loginVo));
+    }
+
+
+    @PostMapping("logout")
+    @ApiOperation(value = "退出登录")
+    @SaCheckLogin
+    public ResultInfo<Void> logout() {
+        StpUtil.logout();
+        return ResultInfo.success();
+    }
+
 }

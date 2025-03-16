@@ -11,7 +11,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table(value = "auth_user", onInsert = MyInsertListener.class, onUpdate = MyUpdateListener.class)
 public class UserVo extends BaseEntity {
 
     /**

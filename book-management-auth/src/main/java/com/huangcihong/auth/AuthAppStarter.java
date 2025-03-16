@@ -23,8 +23,7 @@ public class AuthAppStarter {
     public CommandLineRunner initDatabase(DataSource dataSource) {
         return args -> {
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-            populator.addScript(new ClassPathResource("role_data.sql"));
-            populator.addScript(new ClassPathResource("user_data.sql"));
+            populator.addScript(new ClassPathResource("user.sql"));
             populator.execute(dataSource);
         };
     }

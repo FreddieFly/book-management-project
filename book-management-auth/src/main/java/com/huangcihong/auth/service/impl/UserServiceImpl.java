@@ -1,9 +1,13 @@
 package com.huangcihong.auth.service.impl;
 
+import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.huangcihong.auth.entity.po.UserPo;
 import com.huangcihong.auth.repository.UserRepository;
 import com.huangcihong.auth.service.UserService;
+import com.huangcihong.common.entity.vo.auth.LoginVo;
+import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
 import com.huangcihong.common.entity.vo.auth.UserVo;
 import com.huangcihong.common.enums.ErrorCodeEnum;
 import com.huangcihong.common.exception.BusinessException;
@@ -108,5 +112,26 @@ public class UserServiceImpl implements UserService {
                 .where(USER_PO.NAME.eq(name))
                 .and(USER_PO.ID.ne(userId));
         return userRepository.count(queryWrapper) > 0;
+    }
+
+    @Override
+    public TokenInfoVo doLogin(LoginVo loginVo) {
+        // 校验用户名和密码
+        UserPo userPo = userRepository.getOne(new QueryWrapper()
+                .eq(UserPo::getUsername, loginVo.getUsername())
+                .eq(UserPo::getPassword, loginVo.getPassword()));
+        if (BeanUtil.isEmpty(userPo)) {
+            throw new RuntimeException("用户名或密码错误");
+        }
+
+        StpUtil.login(userPo.getUsername());
+        SaSession saSession = StpUtil.getSession();
+        saSession.set("role", userPo.getRole());
+
+        // 返回结果
+        TokenInfoVo tokenInfoVo = new TokenInfoVo();
+        tokenInfoVo.setAccess_token(StpUtil.getTokenValue());
+        tokenInfoVo.setExpire(StpUtil.getTokenTimeout());
+        return tokenInfoVo;
     }
 }

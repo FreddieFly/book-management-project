@@ -2,6 +2,7 @@
 package com.huangcihong.book.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.huangcihong.book.entity.po.BookPo;
 import com.huangcihong.book.service.BookService;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
@@ -22,6 +23,7 @@ public class BookController {
     @SaCheckLogin
     @PostMapping("add")
     @ApiOperation(value = "添加图书")
+    @SaCheckRole("admin")
     public ResultInfo<String> addBook(@RequestBody BookPo book) {
         return ResultInfo.success(bookService.addBook(book));
     }
@@ -29,6 +31,7 @@ public class BookController {
     @SaCheckLogin
     @DeleteMapping("delete/{id}")
     @ApiOperation("删除图书")
+    @SaCheckRole("admin")
     public ResultInfo<String> deleteBook(@PathVariable String id) {
         return ResultInfo.success(bookService.deleteBook(id));
     }
@@ -36,6 +39,7 @@ public class BookController {
     @SaCheckLogin
     @PutMapping("update")
     @ApiOperation("更新图书")
+    @SaCheckRole("admin")
     public ResultInfo<String> updateBook(@RequestBody BookPo book) {
         return ResultInfo.success(bookService.updateBook(book));
     }

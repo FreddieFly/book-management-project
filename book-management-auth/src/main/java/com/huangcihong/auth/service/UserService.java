@@ -1,5 +1,7 @@
 package com.huangcihong.auth.service;
 
+import com.huangcihong.common.entity.vo.auth.LoginVo;
+import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
 import com.huangcihong.common.entity.vo.auth.UserVo;
 import com.mybatisflex.core.paginate.Page;
 
@@ -49,4 +51,10 @@ public interface UserService {
      * @return 是否删除成功
      */
     Boolean deleteUserById(Long userId);
+
+
+    TokenInfoVo doLogin(LoginVo loginVo);
+
+
 }
+
