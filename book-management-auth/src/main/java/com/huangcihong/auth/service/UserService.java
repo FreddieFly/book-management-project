@@ -1,9 +1,14 @@
 package com.huangcihong.auth.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.huangcihong.auth.entity.po.UserPo;
 import com.huangcihong.common.entity.vo.auth.LoginVo;
 import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
 import com.huangcihong.common.entity.vo.auth.UserVo;
 import com.mybatisflex.core.paginate.Page;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户服务接口
@@ -55,6 +60,7 @@ public interface UserService {
 
     TokenInfoVo doLogin(LoginVo loginVo);
 
+    List<UserVo> getUserList(Set<Long> userIds);
 
 }
 

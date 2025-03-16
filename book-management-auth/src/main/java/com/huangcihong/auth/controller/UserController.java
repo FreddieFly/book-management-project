@@ -14,6 +14,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author huangcihong
  */
@@ -79,6 +82,14 @@ public class UserController {
     public ResultInfo<Void> logout() {
         StpUtil.logout();
         return ResultInfo.success();
+    }
+
+    @PostMapping("getUserList")
+    @ApiOperation(value = "根据用户ID列表批量查询用户信息")
+    @SaCheckLogin
+    @SaCheckRole("admin")
+    public ResultInfo<List<UserVo>> getUserList(@RequestBody Set<Long> userIds) {
+        return ResultInfo.success(userService.getUserList(userIds));
     }
 
 }

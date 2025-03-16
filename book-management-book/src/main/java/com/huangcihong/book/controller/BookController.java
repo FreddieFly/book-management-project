@@ -3,8 +3,10 @@ package com.huangcihong.book.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import com.huangcihong.book.entity.po.BookBorrowPo;
 import com.huangcihong.book.entity.po.BookPo;
 import com.huangcihong.book.service.BookService;
+import com.huangcihong.common.entity.vo.book.BookBorrowVo;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
 import com.mybatisflex.core.paginate.Page;
 import io.swagger.annotations.Api;
@@ -32,7 +34,7 @@ public class BookController {
     @DeleteMapping("delete/{id}")
     @ApiOperation("删除图书")
     @SaCheckRole("admin")
-    public ResultInfo<String> deleteBook(@PathVariable String id) {
+    public ResultInfo<String> deleteBook(@PathVariable Long id) {
         return ResultInfo.success(bookService.deleteBook(id));
     }
 
@@ -47,7 +49,7 @@ public class BookController {
     @SaCheckLogin
     @GetMapping("get/{id}")
     @ApiOperation("获取图书详情")
-    public ResultInfo<BookPo> getBook(@PathVariable String id) {
+    public ResultInfo<BookPo> getBook(@PathVariable Long id) {
         return ResultInfo.success(bookService.getBook(id));
     }
 
@@ -61,14 +63,22 @@ public class BookController {
     @SaCheckLogin
     @PostMapping("borrow")
     @ApiOperation("借阅图书")
-    public ResultInfo<String> borrowBook(@RequestParam String bookId, @RequestParam String userId) {
+    public ResultInfo<String> borrowBook(@RequestParam Long bookId, @RequestParam Long userId) {
         return ResultInfo.success(bookService.borrowBook(bookId, userId));
     }
 
     @SaCheckLogin
     @PostMapping("return")
     @ApiOperation("归还图书")
-    public ResultInfo<String> returnBook(@RequestParam String bookId, @RequestParam String userId) {
+    public ResultInfo<String> returnBook(@RequestParam Long bookId, @RequestParam Long userId) {
         return ResultInfo.success(bookService.returnBook(bookId, userId));
+    }
+
+    @SaCheckLogin
+    @GetMapping("borrowPage")
+    @ApiOperation(value = "分页查询借阅记录")
+    @SaCheckRole("admin")
+    public ResultInfo<Page<BookBorrowVo>> borrowPage(Page<BookBorrowPo> page) {
+        return ResultInfo.success(bookService.borrowPage(page));
     }
 }

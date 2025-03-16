@@ -18,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.huangcihong.auth.entity.po.table.UserPoTableDef.USER_PO;
 
@@ -133,5 +136,12 @@ public class UserServiceImpl implements UserService {
         tokenInfoVo.setAccess_token(StpUtil.getTokenValue());
         tokenInfoVo.setExpire(StpUtil.getTokenTimeout());
         return tokenInfoVo;
+    }
+
+    @Override
+    public List<UserVo> getUserList(Set<Long> userIds) {
+        // 查询用户列表
+        return userRepository.listAs(QueryWrapper.create()
+                .in(UserPo::getId,userIds),UserVo.class);
     }
 }

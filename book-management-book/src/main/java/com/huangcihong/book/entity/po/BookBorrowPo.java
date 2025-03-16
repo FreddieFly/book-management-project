@@ -17,8 +17,8 @@ import java.util.Date;
 @Table(value = "book_borrow", onInsert = MyInsertListener.class, onUpdate = MyUpdateListener.class)
 @EqualsAndHashCode(callSuper = true)
 public class BookBorrowPo extends BaseEntity {
-    private String bookId;
-    private String userId;
+    private Long bookId;
+    private Long userId;
     private Date borrowDate;   // 改为LocalDate
     private Date returnDate;   // 改为LocalDate
 
