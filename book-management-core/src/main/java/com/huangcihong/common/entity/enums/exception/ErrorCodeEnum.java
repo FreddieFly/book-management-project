@@ -1,4 +1,4 @@
-package com.huangcihong.common.enums;
+package com.huangcihong.common.entity.enums.exception;
 
 /**
  * 错误码枚举类

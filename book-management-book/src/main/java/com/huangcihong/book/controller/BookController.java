@@ -7,6 +7,9 @@ import com.huangcihong.book.entity.po.BookBorrowPo;
 import com.huangcihong.book.entity.po.BookPo;
 import com.huangcihong.book.service.BookService;
 import com.huangcihong.common.entity.vo.book.BookBorrowVo;
+import com.huangcihong.common.entity.vo.book.BookCreateVo;
+import com.huangcihong.common.entity.vo.book.BookUpdateVo;
+import com.huangcihong.common.entity.vo.book.BookVo;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
 import com.mybatisflex.core.paginate.Page;
 import io.swagger.annotations.Api;
@@ -26,7 +29,7 @@ public class BookController {
     @PostMapping("add")
     @ApiOperation(value = "添加图书")
     @SaCheckRole("admin")
-    public ResultInfo<String> addBook(@RequestBody BookPo book) {
+    public ResultInfo<String> addBook(@RequestBody BookCreateVo book) {
         return ResultInfo.success(bookService.addBook(book));
     }
 
@@ -42,7 +45,7 @@ public class BookController {
     @PutMapping("update")
     @ApiOperation("更新图书")
     @SaCheckRole("admin")
-    public ResultInfo<String> updateBook(@RequestBody BookPo book) {
+    public ResultInfo<String> updateBook(@RequestBody BookUpdateVo book) {
         return ResultInfo.success(bookService.updateBook(book));
     }
 
@@ -56,7 +59,7 @@ public class BookController {
     @SaCheckLogin
     @GetMapping("list")
     @ApiOperation(value = "分页查询图书", notes = "页码从1开始，默认每页10条")
-    public ResultInfo<Page<BookPo>> listBooks(Page<BookPo> page) {
+    public ResultInfo<Page<BookPo>> listBooks(Page page) {
         return ResultInfo.success(bookService.listBooks(page));
     }
 
@@ -78,7 +81,7 @@ public class BookController {
     @GetMapping("borrowPage")
     @ApiOperation(value = "分页查询借阅记录")
     @SaCheckRole("admin")
-    public ResultInfo<Page<BookBorrowVo>> borrowPage(Page<BookBorrowPo> page) {
+    public ResultInfo<Page<BookBorrowVo>> borrowPage(Page page) {
         return ResultInfo.success(bookService.borrowPage(page));
     }
 }

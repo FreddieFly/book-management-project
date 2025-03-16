@@ -48,13 +48,13 @@ logging:
     com.netflix.*: off
     org.springframework.cloud.config.client: off
 
-management:
-  endpoints:
-    web:
-      base-path: /knowledge-center-actuator
-      exposure:
-        include: "*"
-        exclude: env,beans
-  endpoint:
-    health:
-      show-details: ALWAYS
+#management:
+#  endpoints:
+#    web:
+#      base-path: /knowledge-center-actuator
+#      exposure:
+#        include: "*"
+#        exclude: env,beans
+#  endpoint:
+#    health:
+#      show-details: ALWAYS

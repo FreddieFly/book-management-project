@@ -4,10 +4,8 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import com.huangcihong.auth.service.UserService;
-import com.huangcihong.common.entity.vo.auth.LoginVo;
-import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
+import com.huangcihong.common.entity.vo.auth.*;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
-import com.huangcihong.common.entity.vo.auth.UserVo;
 import com.mybatisflex.core.paginate.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +30,7 @@ public class UserController {
     @ApiOperation(value = "创建用户")
     @SaCheckLogin
     @SaCheckRole("admin")
-    public ResultInfo<Long> createUser(@RequestBody UserVo userVo) {
+    public ResultInfo<Long> createUser(@RequestBody UserCreateVo userVo) {
         return ResultInfo.success(userService.createUser(userVo));
     }
 
@@ -40,7 +38,7 @@ public class UserController {
     @ApiOperation(value = "更新用户信息")
     @SaCheckLogin
     @SaCheckRole("admin")
-    public ResultInfo<Boolean> updateUser(@RequestBody UserVo userVo) {
+    public ResultInfo<Boolean> updateUser(@RequestBody UserUpdateVo userVo) {
         return ResultInfo.success(userService.updateUser(userVo));
     }
 
@@ -48,7 +46,7 @@ public class UserController {
     @ApiOperation(value = "分页查询用户列表")
     @SaCheckLogin
     @SaCheckRole("admin")
-    public ResultInfo<Page<UserVo>> getUserPage(@RequestParam Page<UserVo> page,
+    public ResultInfo<Page<UserVo>> getUserPage(Page<UserVo> page,
                                                 @RequestParam(required = false) String name) {
         return ResultInfo.success(userService.getUserPage(page, name));
     }

@@ -6,10 +6,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.huangcihong.auth.entity.po.UserPo;
 import com.huangcihong.auth.repository.UserRepository;
 import com.huangcihong.auth.service.UserService;
-import com.huangcihong.common.entity.vo.auth.LoginVo;
-import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
-import com.huangcihong.common.entity.vo.auth.UserVo;
-import com.huangcihong.common.enums.ErrorCodeEnum;
+import com.huangcihong.common.entity.vo.auth.*;
+import com.huangcihong.common.entity.enums.exception.ErrorCodeEnum;
 import com.huangcihong.common.exception.BusinessException;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -21,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.huangcihong.auth.entity.po.table.UserPoTableDef.USER_PO;
 
@@ -36,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long createUser(UserVo userVo) {
+    public Long createUser(UserCreateVo userVo) {
         // 检查用户名是否已存在
         if (isNameExists(userVo.getName())) {
             throw new BusinessException(ErrorCodeEnum.USERNAME_ALREADY_EXISTS);
@@ -50,13 +47,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Boolean updateUser(UserVo userVo) {
+    public Boolean updateUser(UserUpdateVo userVo) {
         // 检查用户名是否已存在（排除当前用户）
         if (isNameExists(userVo.getName(), userVo.getId())) {
             throw new BusinessException(ErrorCodeEnum.USERNAME_ALREADY_EXISTS);
         }
 
-        UserPo userPo = userRepository.getById(userVo.getId());
+        UserPo userPo = userRepository.getOne(QueryWrapper.create().eq(UserPo::getId,userVo.getId()));
         if (Objects.isNull(userPo)) {
             throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND);
         }
@@ -112,7 +109,7 @@ public class UserServiceImpl implements UserService {
         QueryWrapper queryWrapper = QueryWrapper.create()
                 .select()
                 .from(USER_PO)
-                .where(USER_PO.NAME.eq(name))
+                .where(USER_PO.ID.eq(userId))
                 .and(USER_PO.ID.ne(userId));
         return userRepository.count(queryWrapper) > 0;
     }

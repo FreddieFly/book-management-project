@@ -1,6 +1,6 @@
 package com.huangcihong.common.exception;
 
-import com.huangcihong.common.enums.ErrorCodeEnum;
+import com.huangcihong.common.entity.enums.exception.ErrorCodeEnum;
 
 /**
  * 自定义业务异常

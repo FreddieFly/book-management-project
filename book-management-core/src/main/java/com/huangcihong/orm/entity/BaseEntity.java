@@ -24,7 +24,7 @@ public class BaseEntity implements Serializable {
     /**
      * id
      */
-    @Id(keyType=KeyType.Auto)
+    @Id(keyType=KeyType.Generator, value= KeyGenerators.snowFlakeId)
     @ApiModelProperty("ID唯一表识")
     private Long id;
 

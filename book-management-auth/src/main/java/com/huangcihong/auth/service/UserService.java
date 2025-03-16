@@ -2,9 +2,7 @@ package com.huangcihong.auth.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.huangcihong.auth.entity.po.UserPo;
-import com.huangcihong.common.entity.vo.auth.LoginVo;
-import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
-import com.huangcihong.common.entity.vo.auth.UserVo;
+import com.huangcihong.common.entity.vo.auth.*;
 import com.mybatisflex.core.paginate.Page;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public interface UserService {
      * @return 创建的用户ID
      * @throws RuntimeException 如果用户名已存在
      */
-    Long createUser(UserVo userVo);
+    Long createUser(UserCreateVo userVo);
 
     /**
      * 更新用户信息
@@ -31,7 +29,7 @@ public interface UserService {
      * @return 是否更新成功
      * @throws RuntimeException 如果用户名已存在
      */
-    Boolean updateUser(UserVo userVo);
+    Boolean updateUser(UserUpdateVo userVo);
 
     /**
      * 分页查询用户列表

@@ -12,6 +12,9 @@ import com.huangcihong.book.service.BookService;
 import com.huangcihong.common.entity.enums.book.BorrowStatusEnum;
 import com.huangcihong.common.entity.vo.auth.UserVo;
 import com.huangcihong.common.entity.vo.book.BookBorrowVo;
+import com.huangcihong.common.entity.vo.book.BookCreateVo;
+import com.huangcihong.common.entity.vo.book.BookUpdateVo;
+import com.huangcihong.common.entity.vo.book.BookVo;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -19,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +40,7 @@ public class BookServiceImpl implements BookService {
     private AuthClient authClient;
 
     @Override
-    public String addBook(BookPo book) {
+    public String addBook(BookCreateVo book) {
         // 检查书名重复
         Long count = bookRepository.count(
             QueryWrapper.create()
@@ -49,7 +51,9 @@ public class BookServiceImpl implements BookService {
         if (count > 0) {
             return "书名已存在";
         }
-        return bookRepository.save(book) ? "添加成功" : "添加失败";
+        BookPo bookPo = new BookPo();
+        BeanUtil.copyProperties(book,bookPo);
+        return bookRepository.save(bookPo) ? "添加成功" : "添加失败";
     }
 
     @Override
@@ -58,18 +62,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public String updateBook(BookPo book) {
+    public String updateBook(BookUpdateVo book) {
         // 检查其他记录是否有相同名称
         Long count = bookRepository.count(
                 QueryWrapper.create()
                         .eq(BookPo::getName,book.getName())
                         .eq(BookPo::getAuthor,book.getAuthor())
                         .eq(BookPo::getPublisher,book.getPublisher())
+                        .ne(BookPo::getId,book.getId())
         );
         if (count > 0) {
             return "书名已被其他图书使用";
         }
-        return bookRepository.updateById(book) ? "更新成功" : "更新失败";
+        BookPo bookPo = new BookPo();
+        BeanUtil.copyProperties(book,bookPo);
+        return bookRepository.updateById(bookPo) ? "更新成功" : "更新失败";
     }
 
     @Override
@@ -78,7 +85,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookPo> listBooks(Page<BookPo> page) {
+    public Page<BookPo> listBooks(Page page) {
+
         return bookRepository.page(page);
     }
 
@@ -126,7 +134,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookBorrowVo> borrowPage(Page<BookBorrowPo> page) {
+    public Page<BookBorrowVo> borrowPage(Page page) {
         // 1. 分页查询借阅记录
         Page<BookBorrowPo> borrowPoPage = bookBorrowRepository.page(page);
         // 2. 提取用户ID列表

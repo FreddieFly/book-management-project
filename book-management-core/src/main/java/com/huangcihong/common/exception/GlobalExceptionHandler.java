@@ -3,7 +3,7 @@ package com.huangcihong.common.exception;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotRoleException;
 import com.huangcihong.common.entity.vo.result.ResultInfo;
-import com.huangcihong.common.enums.ErrorCodeEnum;
+import com.huangcihong.common.entity.enums.exception.ErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
