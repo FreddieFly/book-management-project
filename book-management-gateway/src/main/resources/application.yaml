@@ -1,0 +1,2 @@
+sa-token:
+  context: cn.dev33.satoken.context.reactor.SaTokenContextForReactor

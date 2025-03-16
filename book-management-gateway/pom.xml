@@ -19,12 +19,21 @@
 
 
     <dependencies>
+        <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：https://sa-token.cc -->
         <dependency>
-            <groupId>com.huangcihong</groupId>
-            <artifactId>book-management-core</artifactId>
-            <version>1.0.0</version>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
         <!-- spring -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -49,6 +58,37 @@
             <artifactId>springfox-swagger-common</artifactId>
         </dependency>
 
+
+
+        <!-- mybatis-flex start -->
+        <dependency>
+            <groupId>com.mybatis-flex</groupId>
+            <artifactId>mybatis-flex-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mybatis-flex</groupId>
+            <artifactId>mybatis-flex-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- mybatis-flex end -->
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!--这个依赖只是为了使用 h2 数据源-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.3.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.199</version>
+        </dependency>
 
 
     </dependencies>

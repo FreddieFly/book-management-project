@@ -35,12 +35,7 @@ public class Swagger2Config {
 
         @GetMapping("swagger-resources")
         public Flux<SwaggerResource> swaggerResourceFlux() {
-            if (false) {
-                return null;
-            }
-
             return Flux.fromStream(discoveryClient.getServices().stream()
-                    .filter(service -> service.startsWith("book-management-") && !"book-management-gateway".equalsIgnoreCase(service) && !"book-management-registry".equalsIgnoreCase(service))
                     .map(service -> discoveryClient.getInstances(service).stream().findFirst().orElse(null))
                     .filter(Objects::nonNull)
                     .sorted(Comparator.comparing(ServiceInstance::getServiceId))

@@ -1,9 +1,10 @@
 package com.huangcihong.auth.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import com.huangcihong.auth.service.SecurityService;
-import com.huangcihong.common.ResultInfo;
+import com.huangcihong.common.entity.vo.result.ResultInfo;
 import com.huangcihong.common.entity.vo.auth.LoginVo;
 import com.huangcihong.common.entity.vo.auth.TokenInfoVo;
 import io.swagger.annotations.Api;
@@ -23,17 +24,25 @@ public class SecurityController {
     SecurityService securityService;
 
     @PostMapping("doLogin")
-    public ResultInfo<TokenInfoVo> doLogin(LoginVo loginVo) {
-        return new ResultInfo<>(securityService.doLogin(loginVo));
+    @ApiOperation(value = "用户登录")
+    public ResultInfo<TokenInfoVo> doLogin(@RequestBody LoginVo loginVo) {
+        return ResultInfo.success(securityService.doLogin(loginVo));
     }
 
 
-    @SaIgnore
     @PostMapping("logout")
-    @ApiOperation(value = "权限退出登录")
-    public ResultInfo<Void> logout() {
-        StpUtil.logout(StpUtil.getLoginId());
+    @ApiOperation(value = "退出登录")
+    @SaCheckLogin
+    public ResultInfo<Void> logout(@RequestBody LoginVo loginVo) {
+        StpUtil.logout();
         return ResultInfo.success();
+    }
+
+    @PostMapping("isLogin")
+    @ApiOperation(value = "登陆验证")
+    @SaCheckLogin
+    public ResultInfo<Boolean> isLogin(@RequestBody LoginVo loginVo) {
+        return ResultInfo.success(StpUtil.isLogin());
     }
 
 }

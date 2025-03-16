@@ -38,7 +38,7 @@ spring:
   cloud:
     config:
       fail-fast: false
-      profile: auth
+      profile: auth,general
       retry:
         initial-interval: 2000
         max-attempts: 10

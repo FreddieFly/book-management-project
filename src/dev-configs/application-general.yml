@@ -37,3 +37,5 @@ logging:
 
 swagger:
   enabled: true
+
+
